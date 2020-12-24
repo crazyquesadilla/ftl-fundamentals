@@ -132,3 +132,30 @@ func TestDivide(t *testing.T) {
 		}
 	}
 }
+
+func TestSqrt(t *testing.T) {
+	t.Parallel()
+	type testCase struct {
+		name        string
+		a           float64
+		want        float64
+		errExpected bool
+	}
+
+	testCases := []testCase{
+		{name: "Standard Sqrt", a: 64, want: 8, errExpected: false},
+		{name: "Negative Sqrt", a: -16, want: 424242, errExpected: true},
+	}
+
+	for _, tc := range testCases {
+		got, err := calculator.Sqrt(tc.a)
+		errReceived := err != nil
+
+		if tc.errExpected != errReceived {
+			t.Fatalf("%s (%f): Unexpected error status: %v", tc.name, tc.a, errReceived)
+		}
+		if !tc.errExpected && tc.want != got {
+			t.Fatalf("%s (%f): want %f, got %f", tc.name, tc.a, tc.want, got)
+		}
+	}
+}
